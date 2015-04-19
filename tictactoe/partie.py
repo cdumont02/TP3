@@ -47,3 +47,28 @@ class Partie:
         for i in range(0, 3):
             for j in range(0, 3):
                 self.uplateau[i,j] = Plateau((i,j))
+
+    def est_gagne(self, pion):
+        """
+        Permet de vérifier si un joueur a gagné le jeu.
+        Il faut vérifier toutes les lignes, colonnes et diagonales du plateau.
+
+        Args:
+            pion (string): La forme du pion utilisé par le joueur en question ("X" ou "O").
+
+        Returns:
+            bool: True si le joueur a gagné, False autrement.
+        """
+
+        assert isinstance(pion, str), "Plateau: pion doit être une chaîne de caractères."
+        assert pion in ["O", "X"], "Plateau: pion doit être 'O' ou 'X'."
+
+        vtest = (pion,pion,pion)
+        return  ((self.uplateau[0,0].est_gagne_par,self.uplateau[0,1].est_gagne_par,self.uplateau[0,2].est_gagne_par) == vtest or
+                (self.uplateau[1,0].est_gagne_par,self.uplateau[1,1].est_gagne_par,self.uplateau[1,2].est_gagne_par) == vtest or
+                (self.uplateau[2,0].est_gagne_par,self.uplateau[2,1].est_gagne_par,self.uplateau[2,2].est_gagne_par) == vtest or
+                (self.uplateau[0,0].est_gagne_par,self.uplateau[1,0].est_gagne_par,self.uplateau[2,0].est_gagne_par) == vtest or
+                (self.uplateau[0,1].est_gagne_par,self.uplateau[1,1].est_gagne_par,self.uplateau[2,1].est_gagne_par) == vtest or
+                (self.uplateau[0,2].est_gagne_par,self.uplateau[1,2].est_gagne_par,self.uplateau[2,2].est_gagne_par) == vtest or
+                (self.uplateau[0,0].est_gagne_par,self.uplateau[1,1].est_gagne_par,self.uplateau[2,2].est_gagne_par) == vtest or
+                (self.uplateau[2,0].est_gagne_par,self.uplateau[1,1].est_gagne_par,self.uplateau[0,2].est_gagne_par) == vtest)

@@ -11,11 +11,12 @@ class Plateau:
     Classe modélisant le plateau du jeu Tic-Tac-Toe.
 
     Attributes:
-        cases (dictionary): Dictionnaire de cases. La clé est une position (ligne, colonne),
-                            et la valeur est une instance de la classe Case.
-        self.cordonnees_parent (int,int): Une paire contenant les coordonnées du parent du plateau.
-        self.n_lignes (int): Le nombre de lignes dans un plateau (par défaut = 3).
-        self.n_colonnes (int): Le nombre de colonnes dans un plateau (par défaut = 3).
+        cases                   (dictionary):   Dictionnaire de cases. La clé est une position (ligne, colonne),
+                                                et la valeur est une instance de la classe Case.
+        self.cordonnees_parent  (int,int):      Une paire contenant les coordonnées du parent du plateau.
+        self.n_lignes           (int):          Le nombre de lignes dans un plateau (par défaut = 3).
+        self.n_colonnes         (int):          Le nombre de colonnes dans un plateau (par défaut = 3).
+        self.est_gagne_par      (str):          Le pion qui a gagné le plateau
     """
 
     def __init__(self, cordonnees_parent, n_lignes=3, n_colonnes=3):
@@ -26,6 +27,7 @@ class Plateau:
         self.cordonnees_parent = cordonnees_parent
         self.n_lignes = n_lignes
         self.n_colonnes = n_colonnes
+        self.est_gagne_par = ""
 
         # Dictionnaire de cases.
         # La clé est une position (ligne, colonne), et la valeur est une instance de la classe Case.
