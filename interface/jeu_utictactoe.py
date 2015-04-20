@@ -55,7 +55,7 @@ class CanvasPlateau(Canvas):
 
 
 
-class Fenetre(Tk):
+class FenetreJeu(Tk):
     """
         À completer !.
     """
@@ -126,11 +126,11 @@ class Fenetre(Tk):
                 if self.partie.uplateau[event.widget.plateau.cordonnees_parent].est_gagnant(self.partie.joueur_courant.pion):
                     print("{} a gagné un plateau.".format(self.partie.joueur_courant))
                     event.widget.est_gagne = True
-                    event.widget.plateau.est_gagne_par = self.partie.joueur_courant.pion
+                    event.widget.est_gagne_par = self.partie.joueur_courant.pion
                     if self.partie.est_gagne(self.partie.joueur_courant.pion):
                         print("{} a gagné la partie!!!".format(self.partie.joueur_courant))
-                elif self.partie.uplateau[event.widget.plateau.cordonnees_parent].non_plein == False:
-                    self.canvas_uplateau[ligne, colonne].est_plein = True
+                elif self.partie.uplateau[event.widget.plateau.cordonnees_parent].non_plein() == False:
+                    event.widget.est_plein = True
                     print("Not Yet mais un plateau est plein")
 
                 else:
@@ -142,7 +142,20 @@ class Fenetre(Tk):
                 if self.canvas_uplateau[ligne, colonne].est_gagne:
                     for plateau in self.canvas_uplateau:
                         self.canvas_uplateau[plateau].est_Active = True
+                    for plateau in self.canvas_uplateau:
+                        if self.canvas_uplateau[plateau].est_gagne:
+                            self.canvas_uplateau[plateau].est_Active = False
+                        elif self.canvas_uplateau[plateau].est_plein:
+                            self.canvas_uplateau[plateau].est_Active = False
+                        else:
+                            self.canvas_uplateau[plateau].est_active = True
+                        #self.canvas_uplateau[plateau].est_Active = True
+                        #self.canvas_uplateau[ligne, colonne].est_Active = False
+                elif self.canvas_uplateau[ligne, colonne].est_plein:
+                    for plateau in self.canvas_uplateau:
+                        self.canvas_uplateau[plateau].est_Active = True
                         self.canvas_uplateau[ligne, colonne].est_Active = False
+
                 else:
                     self.canvas_uplateau[ligne, colonne].est_Active = True
                 self.UpdateBordureCouleur()
@@ -169,15 +182,18 @@ class Fenetre(Tk):
         """
         for coordinate in self.canvas_uplateau:
             if self.canvas_uplateau[coordinate].est_gagne:
-                self.canvas_uplateau[coordinate].master["bg"] = "blue"
+                    if self.canvas_uplateau[coordinate].est_gagne_par == "X":
+                        self.canvas_uplateau[coordinate].master["bg"] = "blue"
+                    else:
+                        self.canvas_uplateau[coordinate].master["bg"] = "cyan"
+            elif self.canvas_uplateau[coordinate].est_plein:
+                self.canvas_uplateau[coordinate].master["bg"] = "red"
             elif self.canvas_uplateau[coordinate].est_Active:
                 self.canvas_uplateau[coordinate].master["bg"] = "green"
-            elif self.canvas_uplateau[coordinate].est_plein:
-                self.canvas_uplateau[coordinate].master["bg"] = "magenta"
             elif self.canvas_uplateau[coordinate].est_Active == False:
                 self.canvas_uplateau[coordinate].master["bg"] = "black"
             else:
-                self.canvas_uplateau[coordinate].master["bg"] = "red"
+                self.canvas_uplateau[coordinate].master["bg"] = "magenta"
 
     def SurbrillanceProchainPlateau(self, event):
         """
