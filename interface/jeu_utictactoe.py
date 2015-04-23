@@ -4,7 +4,8 @@ __date__ = "Ajoutez la date de remise"
 """Ce fichier permet de...(complétez la description de ce que
 ce fichier est supposé faire ! """
 
-from tkinter import Tk, Canvas, Label, Frame, GROOVE
+from tkinter import Tk, Canvas, Label, Frame, GROOVE, Entry, Radiobutton, IntVar, Button
+from tkinter.ttk import Combobox
 from tictactoe.partie import Partie
 from tictactoe.joueur import Joueur
 
@@ -52,14 +53,73 @@ class CanvasPlateau(Canvas):
                 self.create_rectangle(debut_colonne, debut_ligne, fin_colonne, fin_ligne,
                                       fill='#e1e1e1', width = 2, outline = "red")
 
+class choisir_types():
+    def __init__(self):
+        super().__init__()
+
+        self.title="type d'adversaire"
+        self.type_label = Label(text="Contre qui désirez-vous jouer?")
+        self.type_label.grid(row=2)
+        self.v= IntVar()
+        #on pose la question du type avec des radioboutons!
+        self.type_1 = Radiobutton(text="Ordinateur", variable=self.v, value=1, command = self.retourval())
+        self.type_1.grid(row =2,column=2)
+        self.type_2 = Radiobutton(text="Un Autre Joueur", variable=self.v, value=2, command=self.retourval())
+        self.type_2.grid(row =3,column=2)
+        #pour obtenir la réponse
+
+        self.Bouton1=Button(text="Entrer", command=self.ClicBouton)
+        self.Bouton1.grid(row=4, column=2)
+
+    def retourval(self):
+        return self.v.get()
+
+    def ClicBouton(self):
+        if (self.v.get())==1:
+            quit()
+        elif (self.v.get())==2:
+            quit()
+        else: pass
+
+
+
+class info_joueur(Tk):
+    def __init__(self):
+        super().__init__()
+
+        type_choisi = choisir_types()
+
+        if type_choisi == 1:
+            #titre de la fenêtre
+            self.title("Informations sur les joueurs?")
+            #on pose la première question
+            self.nom_1_q = Label (text="Quel est le nom du premier joueur?")
+            self.nom_1_q.grid(padx=10, column = 0,row=1)
+            #on obtient la première réponse!
+            self.nom_1_r = Entry()
+            self.nom_1_r.grid(column=2,row=1)
+
+            premier_nom = self.nom_1_r.get()
+            self.Bouton2=Button(text="Entrer", command=self.ClicBouton)
+            self.Bouton2.grid(row=1, column=2)
+
+
+
+
+
+
+
 
 
 
 class FenetreJeu(Tk):
+
+
     """
         À completer !.
     """
     def __init__(self):
+
         """
             À completer !.
         """
@@ -94,11 +154,15 @@ class FenetreJeu(Tk):
         # Création de deux joueurs. Ce code doit être bien sûr modifié,
         # car il faut chercher ces infos dans les widgets de la fenêtre.
         # Vous pouvez également déplacer ce code dans une autre méthode selon votre propre solution.
+
+
         p1 = Joueur("VotreNom", "Personne", 'X')
         p2 = Joueur("Colosse", "Ordinateur", 'O')
         self.partie.joueurs = [p1,p2]
         self.partie.joueur_courant = p1
+
         self.UpdateBordureCouleur()
+
 
     def selectionner(self, event):
         """
@@ -175,6 +239,9 @@ class FenetreJeu(Tk):
         #    event.widget.plateau.initialiser()
 
 
+
+
+
     def UpdateBordureCouleur(self):
         """
         Cette méthode met à jour la couleur de la bordure de chaque plateau en fonction de son état
@@ -238,4 +305,3 @@ class FenetreJeu(Tk):
         """
         self.messages['foreground'] = 'black'
         self.messages['text'] = message
-
