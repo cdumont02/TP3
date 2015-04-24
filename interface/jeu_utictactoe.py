@@ -61,14 +61,15 @@ class ParametrePartie():
 
 class choisir_types(Tk):
     def __init__(self):
+        self.title="type d'adversaire"
         super().__init__()
 
-        self.title="type d'adversaire"
+
         self.type_label = Label(text="Contre qui désirez-vous jouer?")
         self.type_label.grid(row=2)
         self.v= IntVar()
         #on pose la question du type avec des radioboutons!
-        self.type_1 = Radiobutton(text="Ordinateur", variable=self.v, value=1, command = self.retourval)
+        self.type_1 = Radiobutton(text="Un Ordinateur", variable=self.v, value=1, command = self.retourval)
         self.type_1.grid(row =2,column=2)
         self.type_2 = Radiobutton(text="Un Autre Joueur", variable=self.v, value=2, command=self.retourval)
         self.type_2.grid(row =3,column=2)
@@ -102,9 +103,22 @@ class info_joueur(Tk):
             self.nom_1_r.grid(column=1,row=0)
             self.NomJoueur1 = self.nom_1_r.get()
 
-            premier_nom = self.nom_1_r.get()
+            #on demande pour le pion!
+            self.pion_label = Label(text="Quel Pion Désirez-Vous?")
+            self.pion_label.grid(row=2)
+            self.v= IntVar()
+            #on pose la question du pion avec des radioboutons!
+            self.pion_1 = Radiobutton(text="X", variable=self.v, value=1, command = self.retourval)
+            self.pion_1.grid(row =2,column=1)
+            self.pion_2 = Radiobutton(text="O", variable=self.v, value=2, command = self.retourval)
+            self.pion_2.grid(row =2,column=2)
+            #x est le choix par défaut
+            self.choix = "X"
+            #pour obtenir la réponse
+
             self.Bouton2=Button(text="Entrer", command=self.ClicBouton)
-            self.Bouton2.grid(row=1, column=1)
+            self.Bouton2.grid(row=3, column=1)
+
         else:
             #titre de la fenêtre
             self.title("Informations sur les joueurs?")
@@ -119,15 +133,35 @@ class info_joueur(Tk):
             self.nom_2_r = Entry()
             self.nom_2_r.grid(column=1,row=1)
 
+            #on demande pour le pion!
+            self.pion_label = Label(text="Quel Pion le Joueur 1 Désire-T'Il?")
+            self.pion_label.grid(row=3)
+            self.v= IntVar()
+            #x est le choix par défaut
+            self.choix = "X"
+            #on pose la question du pion avec des radioboutons!
+            self.pion_1 = Radiobutton(text="X", variable=self.v, value=1, command = self.retourval())
+            self.pion_1.grid(row =3,column=1)
+            self.pion_2 = Radiobutton(text="O", variable=self.v, value=2, command = self.retourval)
+            self.pion_2.grid(row =3,column=2)
+            #pour obtenir la réponse
+
+
 
             premier_nom = self.nom_1_r.get()
             self.Bouton2=Button(text="Entrer", command=self.ClicBouton)
-            self.Bouton2.grid(row=3, column=1)
+            self.Bouton2.grid(row=4, column=1)
+
+    def retourval(self):
+        if self.v.get() == 1:
+            self.choix = "X"
+        else:
+            self.choix = "O"
+
 
     def ClicBouton(self):
-
         self.NomJoueur1 = self.nom_1_r.get()
-        self.NomJoueur2 = self.nom_2_r.get()
+        self.NomJoueur2 = "Colosse"
         self.destroy()
 
 
@@ -182,6 +216,13 @@ class FenetreJeu(Tk):
         self.partie.joueur_courant = p1
 
         self.UpdateBordureCouleur()
+
+    def ai_ordinateur(self,pion):
+        for ligne in [0,2]:
+            for colonne in [0,2]:
+                self.partie.uplateau[ligne,colonne].selectionner_case(ligne,colonne,self.partie.joueur_courant.pion)
+                if self.partie.est_gagne(self.partie.joueur_courant.pion):
+                    self.selectionner()
 
 
     def selectionner(self, event):
