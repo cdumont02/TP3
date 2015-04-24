@@ -14,7 +14,7 @@ class Joueur:
         nb_parties_gagnees (int): Le nombre de parties gagnées par le joueur.
     """
 
-    def __init__(self, nom, type, pion):
+    def __init__(self, nom="Colosse", type="Ordinateur", pion="O"):
         """
         Méthode spéciale initialisant un nouveau joueur.
         Args:
