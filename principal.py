@@ -9,14 +9,16 @@ from interface.jeu_utictactoe import ParametrePartie
 from interface.jeu_utictactoe import info_joueur
 from interface.jeu_utictactoe import choisir_types
 
+
+
 if __name__ == '__main__':
+
 
     parametres = ParametrePartie()
 
     fen_adversaire = choisir_types()
     fen_adversaire.wait_window()
     parametres.ChoixAdversaire = fen_adversaire.choix
-
     fen_joueur = info_joueur(parametres.ChoixAdversaire)
     fen_joueur.wait_window()
     if parametres.ChoixAdversaire == 1:

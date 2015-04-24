@@ -8,6 +8,10 @@ from tkinter import Tk, Canvas, Label, Frame, GROOVE, Entry, Radiobutton, IntVar
 from tkinter.ttk import Combobox
 from tictactoe.partie import Partie
 from tictactoe.joueur import Joueur
+import winsound
+
+
+
 
 
 class CanvasPlateau(Canvas):
@@ -34,6 +38,7 @@ class CanvasPlateau(Canvas):
 
         # Dessiner le plateau du jeu ultimate Tic-Tac-Toe.
         self.dessiner_plateau()
+
 
 
 
@@ -65,6 +70,7 @@ class choisir_types(Tk):
         super().__init__()
 
 
+
         self.type_label = Label(text="Contre qui désirez-vous jouer?")
         self.type_label.grid(row=2)
         self.v= IntVar()
@@ -76,11 +82,15 @@ class choisir_types(Tk):
         self.choix = 0
         #pour obtenir la réponse
 
+
         self.Bouton1=Button(text="Entrer", command=self.ClicBouton)
         self.Bouton1.grid(row=4, column=2)
 
+
+
     def retourval(self):
         self.choix = self.v.get()
+
 
     def ClicBouton(self):
         self.destroy()
@@ -107,13 +117,13 @@ class info_joueur(Tk):
             self.pion_label = Label(text="Quel Pion Désirez-Vous?")
             self.pion_label.grid(row=2)
             self.v= IntVar()
+            self.choix = "X"
             #on pose la question du pion avec des radioboutons!
             self.pion_1 = Radiobutton(text="X", variable=self.v, value=1, command = self.retourval)
             self.pion_1.grid(row =2,column=1)
             self.pion_2 = Radiobutton(text="O", variable=self.v, value=2, command = self.retourval)
             self.pion_2.grid(row =2,column=2)
             #x est le choix par défaut
-            self.choix = "X"
             #pour obtenir la réponse
 
             self.Bouton2=Button(text="Entrer", command=self.ClicBouton)
@@ -153,6 +163,8 @@ class info_joueur(Tk):
             self.Bouton2.grid(row=4, column=1)
 
     def retourval(self):
+
+
         if self.v.get() == 1:
             self.choix = "X"
         else:
@@ -171,6 +183,8 @@ class FenetreJeu(Tk):
 
     """
     def __init__(self, parametres):
+        #pour faire jouer une musique de fond!
+        #winsound.PlaySound('Jingle.wav' , winsound.SND_ALIAS | winsound.SND_FILENAME | winsound.SND_ASYNC | winsound.SND_LOOP)
 
         """
             À completer !.
@@ -204,6 +218,8 @@ class FenetreJeu(Tk):
         # Ajout d'une étiquette d'information.
         self.messages = Label(self)
         self.messages.grid(columnspan=3)
+
+
 
         # Création de deux joueurs. Ce code doit être bien sûr modifié,
         # car il faut chercher ces infos dans les widgets de la fenêtre.
