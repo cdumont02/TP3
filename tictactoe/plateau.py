@@ -154,8 +154,8 @@ class Plateau:
         # Dans ce cas, on retourne les coordonnées de cette case!
         for i in range(0, 3):
             for j in range(0, 3):
-                if self.position_valide(i, j):
-                    self.selectionner_case(i, j, pion)
+                if self.position_valide(i,j):
+                    self.selectionner_case(i,j,pion)
                     # Chercher si l'ordi peut gagner en jouant cette case !
                     if self.est_gagnant(pion):
                         self.cases[(i,j)].contenu = " "

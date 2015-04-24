@@ -9,7 +9,8 @@ from tkinter.ttk import Combobox
 from tictactoe.partie import Partie
 from tictactoe.joueur import Joueur
 import winsound
-
+from tictactoe.plateau import Plateau
+from random import randrange
 
 
 
@@ -102,11 +103,14 @@ class info_joueur(Tk):
     def __init__(self, type_choisi):
         super().__init__()
 
+
+
         if type_choisi == 1:
+
             #titre de la fenêtre
             self.title("Informations sur les joueurs?")
             #on pose la première question
-            self.nom_1_q = Label (text="Quel est le nom du premier joueur?")
+            self.nom_1_q = Label (text="Quel est le nom du joueur?")
             self.nom_1_q.grid(padx=10, column = 0,row=0)
             #on obtient la première réponse!
             self.nom_1_r = Entry()
@@ -150,7 +154,7 @@ class info_joueur(Tk):
             #x est le choix par défaut
             self.choix = "X"
             #on pose la question du pion avec des radioboutons!
-            self.pion_1 = Radiobutton(text="X", variable=self.v, value=1, command = self.retourval())
+            self.pion_1 = Radiobutton(text="X", variable=self.v, value=1, command = self.retourval)
             self.pion_1.grid(row =3,column=1)
             self.pion_2 = Radiobutton(text="O", variable=self.v, value=2, command = self.retourval)
             self.pion_2.grid(row =3,column=2)
@@ -172,9 +176,8 @@ class info_joueur(Tk):
 
 
     def ClicBouton(self):
-        self.NomJoueur1 = self.nom_1_r.get()
-        self.NomJoueur2 = "Colosse"
         self.destroy()
+
 
 
 
@@ -184,7 +187,7 @@ class FenetreJeu(Tk):
     """
     def __init__(self, parametres):
         #pour faire jouer une musique de fond!
-        #winsound.PlaySound('Jingle.wav' , winsound.SND_ALIAS | winsound.SND_FILENAME | winsound.SND_ASYNC | winsound.SND_LOOP)
+        winsound.PlaySound('Jingle.wav' , winsound.SND_ALIAS | winsound.SND_FILENAME | winsound.SND_ASYNC | winsound.SND_LOOP)
 
         """
             À completer !.
@@ -233,12 +236,7 @@ class FenetreJeu(Tk):
 
         self.UpdateBordureCouleur()
 
-    def ai_ordinateur(self,pion):
-        for ligne in [0,2]:
-            for colonne in [0,2]:
-                self.partie.uplateau[ligne,colonne].selectionner_case(ligne,colonne,self.partie.joueur_courant.pion)
-                if self.partie.est_gagne(self.partie.joueur_courant.pion):
-                    self.selectionner()
+
 
 
     def selectionner(self, event):
@@ -247,6 +245,7 @@ class FenetreJeu(Tk):
         """
         # On trouve le numéro de ligne/colonne en divisant par le nombre de pixels par case.
         # event.widget représente ici un des 9 canvas !
+
         if (event.widget.est_Active and event.widget.est_gagne == False):
             ligne = event.y // event.widget.taille_case
             colonne = event.x // event.widget.taille_case
@@ -278,6 +277,15 @@ class FenetreJeu(Tk):
 
                     # On Changer le joueur courant.
                     self.ChangerJoueurCourant()
+
+                    #on fait jouer l'ordinateur
+                    parametres = ParametrePartie()
+                    if self.partie.joueur_courant == self.partie.joueurs[1] and parametres.ChoixAdversaire==1:
+                        coordo = (ligne,colonne)
+                        (i,j) = self.Jeu_Ordi(self,coordo,3)
+                        self.UpdatePlateauStatus(i,j)
+                        self.dessiner_pion(i,j,event)
+
 
                 else:
                     #Si la sélection est non valide
@@ -402,6 +410,12 @@ class FenetreJeu(Tk):
             self.partie.joueur_courant = self.partie.joueurs[1]
         else:
             self.partie.joueur_courant = self.partie.joueurs[0]
+
+    def Jeu_Ordi(self,coordo,n_lignes, n_colonnes):
+        pion_ordi = "X"
+        self.case = Plateau(coordo,n_lignes=3,n_colonnes=3)
+        self.case.choisir_prochaine_case(pion_ordi)
+
 
     def UpdatePlateauStatus(self, ligne, colonne):
         """
