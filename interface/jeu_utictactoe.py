@@ -1,5 +1,5 @@
-__authors__ = 'Ajoutez les noms des membres de votre équipe!'
-__date__ = "Ajoutez la date de remise"
+__authors__ = 'Carl Dumont et Simon Provencher (Sipro32, 111119114'
+__date__ = "24 Avril 2015"
 
 """Ce fichier permet de...(complétez la description de ce que
 ce fichier est supposé faire ! """
@@ -297,8 +297,8 @@ class FenetreJeu(Tk):
                     self.ChangerJoueurCourant()
 
                     #on fait jouer l'ordinateur
-                    parametres = ParametrePartie()
-                    if self.partie.joueur_courant == self.partie.joueurs[1]:
+
+                    if self.partie.joueur_courant == self.partie.joueurs[1] and self.parametres().Choix_Adversaire == 1 :
                         self.Jeu_Ordi(ligne,colonne)
 
 
@@ -428,6 +428,7 @@ class FenetreJeu(Tk):
             self.partie.joueur_courant = self.partie.joueurs[0]
 
     def Jeu_Ordi(self,ligne,colonne):
+        print("wolololo")
         pion_ordi = ParametrePartie().DeuxiemeJoueur.pion
         if ParametrePartie().niveau == 0:
             self.coordo = ligne,colonne

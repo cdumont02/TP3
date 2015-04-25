@@ -21,7 +21,6 @@ if __name__ == '__main__':
     parametres.ChoixAdversaire = fen_adversaire.choix
     fen_joueur = info_joueur(parametres.ChoixAdversaire)
     fen_joueur.wait_window()
-    parametres.Pion_Premier_Joueur = fen_joueur.choix
     parametres.niveau = fen_joueur.niveau
     if parametres.ChoixAdversaire == 1:
         parametres.PremierJoueur.nom = fen_joueur.NomJoueur1
