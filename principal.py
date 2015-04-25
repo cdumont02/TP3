@@ -21,17 +21,22 @@ if __name__ == '__main__':
     parametres.ChoixAdversaire = fen_adversaire.choix
     fen_joueur = info_joueur(parametres.ChoixAdversaire)
     fen_joueur.wait_window()
+    parametres.Pion_Premier_Joueur = fen_joueur.choix
+    parametres.niveau = fen_joueur.niveau
     if parametres.ChoixAdversaire == 1:
-        parametres.PremierJoueur.nom = fen_joueur.nom_1_r.get()
+        parametres.PremierJoueur.nom = fen_joueur.NomJoueur1
         parametres.PremierJoueur.pion = fen_joueur.choix
-        parametres.DeuxiemeJoueur.nom = "Colosse"
-    else:
-        parametres.PremierJoueur.nom = fen_joueur.nom_1_r.get()
-        parametres.PremierJoueur.pion = fen_joueur.choix
-        parametres.DeuxiemeJoueur.nom = fen_joueur.nom_2_r.get()
-        parametres.DeuxiemeJoueur.type = "Personne"
-        if fen_joueur.choix == "O":
+        parametres.DeuxiemeJoueur.nom = fen_joueur.NomJoueur2
+        if parametres.PremierJoueur.pion == "O":
             parametres.DeuxiemeJoueur.pion = "X"
+    else:
+        parametres.PremierJoueur.nom = fen_joueur.NomJoueur1
+        parametres.PremierJoueur.pion = fen_joueur.choix
+        parametres.DeuxiemeJoueur.nom = fen_joueur.NomJoueur2
+        parametres.DeuxiemeJoueur.type = "Personne"
+        if parametres.PremierJoueur.pion == "O":
+            parametres.DeuxiemeJoueur.pion = "X"
+
 
 
 

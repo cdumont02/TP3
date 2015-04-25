@@ -6,6 +6,7 @@ __date__ = "12 mars 2015"
 from tictactoe.case import Case
 from random import randrange
 
+
 class Plateau:
     """
     Classe modélisant le plateau du jeu Tic-Tac-Toe.
@@ -128,6 +129,7 @@ class Plateau:
                 (self.cases[2,0].contenu,self.cases[1,1].contenu,self.cases[0,2].contenu) == vtest)
 
     def choisir_prochaine_case(self, pion):
+        ##niveau de difficulté moyen!
         """
         Permet de retourner les coordonnées (ligne, colonne) de la case que l'ordinateur
         peut choisir afin de jouer contre un autre joueur qui est normalement une personne.
@@ -167,6 +169,25 @@ class Plateau:
                         self.cases[(i,j)].contenu = " "
                         return i, j
                     self.cases[(i,j)].contenu = " "
+
+        # Sinon, retourner au hasard une case parmi celles qui sont vides !
+        liste = []
+        for i in range(0, 3):
+            for j in range(0, 3):
+                if self.cases[i,j].est_vide():
+                    liste += [(i,j)]
+
+        irand = randrange(0,len(liste))
+        return liste[irand]
+
+
+
+    def choisir_case_facile(self,pion):
+
+        if pion == "X":
+            pion_adverse = "O"
+        else:
+            pion_adverse = "X"
 
         # Sinon, retourner au hasard une case parmi celles qui sont vides !
         liste = []

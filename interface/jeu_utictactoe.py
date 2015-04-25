@@ -63,15 +63,15 @@ class ParametrePartie():
         self.ChoixAdversaire = 0
         self.PremierJoueur = Joueur("Personne")
         self.DeuxiemeJoueur = Joueur()
+        self.niveau = 0
 
 
 class choisir_types(Tk):
     def __init__(self):
-        self.title="type d'adversaire"
         super().__init__()
 
 
-
+        self.title="Type d'adversaire"
         self.type_label = Label(text="Contre qui désirez-vous jouer?")
         self.type_label.grid(row=2)
         self.v= IntVar()
@@ -130,8 +130,22 @@ class info_joueur(Tk):
             #x est le choix par défaut
             #pour obtenir la réponse
 
-            self.Bouton2=Button(text="Entrer", command=self.ClicBouton)
-            self.Bouton2.grid(row=3, column=1)
+            #on demande pour le niveau!
+            self.pion_label = Label(text="Quel Niveau de difficulté?")
+            self.pion_label.grid(row=3)
+            self.v= IntVar()
+            self.niveau = 0
+            #on pose la question du pion avec des radioboutons!
+            self.pion_1 = Radiobutton(text="Facile", variable=self.v, value=0, command = self.retourval)
+            self.pion_1.grid(row =3,column=1)
+            self.pion_2 = Radiobutton(text="Moyen", variable=self.v, value=1, command = self.retourval)
+            self.pion_2.grid(row =3,column=2)
+            #0 est le choix par défaut
+            #pour obtenir la réponse
+
+
+            self.Bouton2=Button(text="Entrer", command=self.ClicBouton1)
+            self.Bouton2.grid(row=4, column=1)
 
         else:
             #titre de la fenêtre
@@ -144,11 +158,13 @@ class info_joueur(Tk):
             #on obtient la première réponse!
             self.nom_1_r = Entry()
             self.nom_1_r.grid(column=1,row=0)
+            self.NomJoueur1 = self.nom_1_r.get()
             self.nom_2_r = Entry()
             self.nom_2_r.grid(column=1,row=1)
+            self.NomJoueur2 = self.nom_2_r.get()
 
             #on demande pour le pion!
-            self.pion_label = Label(text="Quel Pion le Joueur 1 Désire-T'Il?")
+            self.pion_label = Label(text="Quel Pion le Premier Jouer Désire t'il?")
             self.pion_label.grid(row=3)
             self.v= IntVar()
             #x est le choix par défaut
@@ -161,13 +177,10 @@ class info_joueur(Tk):
             #pour obtenir la réponse
 
 
-
-            premier_nom = self.nom_1_r.get()
-            self.Bouton2=Button(text="Entrer", command=self.ClicBouton)
+            self.Bouton2=Button(text="Entrer", command=self.ClicBouton2)
             self.Bouton2.grid(row=4, column=1)
 
     def retourval(self):
-
 
         if self.v.get() == 1:
             self.choix = "X"
@@ -175,9 +188,14 @@ class info_joueur(Tk):
             self.choix = "O"
 
 
-    def ClicBouton(self):
+    def ClicBouton1(self):
+        self.NomJoueur1 = self.nom_1_r.get()
+        self.NomJoueur2 = "Colosse"
         self.destroy()
-
+    def ClicBouton2(self):
+        self.NomJoueur1 = self.nom_1_r.get()
+        self.NomJoueur2 = self.nom_2_r.get()
+        self.destroy()
 
 
 
@@ -280,11 +298,9 @@ class FenetreJeu(Tk):
 
                     #on fait jouer l'ordinateur
                     parametres = ParametrePartie()
-                    if self.partie.joueur_courant == self.partie.joueurs[1] and parametres.ChoixAdversaire==1:
-                        coordo = (ligne,colonne)
-                        (i,j) = self.Jeu_Ordi(self,coordo,3)
-                        self.UpdatePlateauStatus(i,j)
-                        self.dessiner_pion(i,j,event)
+                    if self.partie.joueur_courant == self.partie.joueurs[1]:
+                        self.Jeu_Ordi(ligne,colonne)
+
 
 
                 else:
@@ -411,10 +427,20 @@ class FenetreJeu(Tk):
         else:
             self.partie.joueur_courant = self.partie.joueurs[0]
 
-    def Jeu_Ordi(self,coordo,n_lignes, n_colonnes):
-        pion_ordi = "X"
-        self.case = Plateau(coordo,n_lignes=3,n_colonnes=3)
-        self.case.choisir_prochaine_case(pion_ordi)
+    def Jeu_Ordi(self,ligne,colonne):
+        pion_ordi = ParametrePartie().DeuxiemeJoueur.pion
+        if ParametrePartie().niveau == 0:
+            self.coordo = ligne,colonne
+            (i,j) = Plateau(self.coordo).choisir_case_facile(pion_ordi)
+        if ParametrePartie().niveau == 0:
+            self.coordo = ligne,colonne
+            (i,j) = Plateau(self.coordo).choisir_prochaine_case(pion_ordi)
+
+
+
+
+
+
 
 
     def UpdatePlateauStatus(self, ligne, colonne):
